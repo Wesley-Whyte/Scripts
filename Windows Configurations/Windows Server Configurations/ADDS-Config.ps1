@@ -2,18 +2,24 @@
 # Windows PowerShell script for AD DS Deployment
 #
 
+param (
+    [string]$DomainName = "iamwesley.ca",
+    [SecureString]$SafeModePassword = "P@ssw0rd!"
+)
+
+$NetBiosName = $DomainName.Split('.')[0].ToUpper()
+
 Import-Module ADDSDeployment
-$adminPassword = ConvertTo-SecureString "Weezywhyte95#" -AsPlainText -Force
 Install-ADDSForest `
     -CreateDnsDelegation:$false `
     -DatabasePath "C:\Windows\NTDS" `
     -DomainMode "WinThreshold" `
-    -DomainName "corp.iamwesley.ca" `
-    -DomainNetbiosName "IAMWESLEY" `
+    -DomainName $DomainName `
+    -DomainNetbiosName $NetBiosName `
     -ForestMode "WinThreshold" `
     -InstallDns:$true `
     -LogPath "C:\Windows\NTDS" `
     -NoRebootOnCompletion:$false `
     -SysvolPath "C:\Windows\SYSVOL" `
-    -SafeModeAdministratorPassword $adminPassword `
+    -SafeModeAdministratorPassword $SafeModePassword `
     -Force:$true
