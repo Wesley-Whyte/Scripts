@@ -4,10 +4,11 @@
 
 param (
     [string]$DomainName,
-    [SecureString]$SafeModePassword
+    [String]$SafeModePassword
 )
 
 $NetBiosName = $DomainName.Split('.')[0].ToUpper()
+$password = ConvertTo-SecureString -AsPlainText $SafeModePassword -Force
 
 Import-Module ADDSDeployment
 Install-ADDSForest `
@@ -21,5 +22,5 @@ Install-ADDSForest `
     -LogPath "C:\Windows\NTDS" `
     -NoRebootOnCompletion:$false `
     -SysvolPath "C:\Windows\SYSVOL" `
-    -SafeModeAdministratorPassword $SafeModePassword `
+    -SafeModeAdministratorPassword $password `
     -Force:$true
