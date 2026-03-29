@@ -3,8 +3,8 @@
 #
 
 param (
-    [string]$DomainName = "iamwesley.ca",
-    [SecureString]$SafeModePassword = "P@ssw0rd!"
+    [string]$DomainName,
+    [SecureString]$SafeModePassword
 )
 
 $NetBiosName = $DomainName.Split('.')[0].ToUpper()
